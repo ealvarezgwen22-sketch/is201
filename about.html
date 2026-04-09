@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Clean Blog - Start Bootstrap Theme</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sky Catcher</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .game-shell {
+      width: min(92vw, 900px);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      flex-wrap: wrap;
+    }
+
+    .title {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .stats {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      font-weight: 600;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(1px); }
+
+    .primary { background: #38bdf8; color: #082f49; }
+    .secondary { background: #f8fafc; color: #0f172a; }
+
+    .arena {
+      position: relative;
+      height: 560px;
+      border-radius: 22px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.18) 0 2px, transparent 3px),
+        radial-gradient(circle at 70% 30%, rgba(255,255,255,0.18) 0 2px, transparent 3px),
+        radial-gradient(circle at 40% 80%, rgba(255,255,255,0.16) 0 2px, transparent 3px),
+        linear-gradient(180deg, #0b1022 0%, #111827 50%, #172554 100%);
+      box-shadow: 0 24px 50px rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .player {
+      position: absolute;
+      bottom: 18px;
+      width: 90px;
+      height: 26px;
+      border-radius: 20px;
+      background: linear-gradient(90deg, #22d3ee, #38bdf8);
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.65);
+    }
+
+    .player::before {
+      content: "";
+      position: absolute;
+      top: -12px;
+      left: 22px;
+      width: 46px;
+      height: 16px;
+      border-radius: 12px 12px 6px 6px;
+      background: rgba(255,255,255,0.8);
+    }
+
+    .falling {
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      user-select: none;
+      pointer-events: none;
+      filter: drop-shadow(0 0 8px rgba(255,255,255,0.35));
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.72);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .card {
+      max-width: 540px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+    }
+
+    .card h1 {
+      margin: 0 0 10px;
+      font-size: 2rem;
+    }
+
+    .card p {
+      margin: 8px 0;
+      line-height: 1.5;
+      color: #dbeafe;
+    }
+
+    .hidden { display: none; }
+
+    .footer-note {
+      text-align: center;
+      color: #cbd5e1;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 640px) {
+      .arena { height: 460px; }
+      .title { font-size: 1.1rem; }
+      .stats { gap: 12px; font-size: 0.95rem; }
+      .player { width: 78px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="game-shell">
+    <div class="topbar">
+      <div class="title">Sky Catcher</div>
+      <div class="stats">
+        <div>Score: <span id="score">0</span></div>
+        <div>Lives: <span id="lives">3</span></div>
+        <div>Level: <span id="level">1</span></div>
+      </div>
+      <div class="controls">
+        <button class="primary" id="startBtn">Start Game</button>
+        <button class="secondary" id="restartBtn">Restart</button>
+      </div>
+    </div>
+
+    <div class="arena" id="arena">
+      <div class="player" id="player"></div>
+
+      <div class="overlay" id="startOverlay">
+        <div class="card">
+          <h1>Catch the Stars</h1>
+          <p>Move the paddle with your mouse or arrow keys.</p>
+          <p>Catch ⭐ for points. Avoid 💣 or lose a life.</p>
+          <p>Every 10 points, the game speeds up.</p>
+          <button class="primary" id="overlayStartBtn">Play Now</button>
+        </div>
+      </div>
+
+      <div class="overlay hidden" id="gameOverOverlay">
+        <div class="card">
+          <h1>Game Over</h1>
+          <p>Your final score: <strong id="finalScore">0</strong></p>
+          <p>Nice run. Try to beat your score.</p>
+          <button class="primary" id="playAgainBtn">Play Again</button>
+        </div>
+      </div>
+    </div>
+
+  
+  </div>
+
+  <script>
+    const arena = document.getElementById('arena');
+    const player = document.getElementById('player');
+    const scoreEl = document.getElementById('score');
+    const livesEl = document.getElementById('lives');
+    const levelEl = document.getElementById('level');
+    const finalScoreEl = document.getElementById('finalScore');
+    const startOverlay = document.getElementById('startOverlay');
+    const gameOverOverlay = document.getElementById('gameOverOverlay');
+
+    const startBtn = document.getElementById('startBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const overlayStartBtn = document.getElementById('overlayStartBtn');
+    const playAgainBtn = document.getElementById('playAgainBtn');
+
+    let score = 0;
+    let lives = 3;
+    let level = 1;
+    let gameRunning = false;
+    let animationId = null;
+    let spawnTimer = null;
+    let playerX = 0;
+    let targetX = 0;
+    let keys = { left: false, right: false };
+    let fallingItems = [];
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function setPlayerPosition(x) {
+      const maxX = arena.clientWidth - player.offsetWidth;
+      playerX = clamp(x, 0, maxX);
+      player.style.left = `${playerX}px`;
+    }
+
+    function resetGame() {
+      score = 0;
+      lives = 3;
+      level = 1;
+      gameRunning = false;
+      clearInterval(spawnTimer);
+      cancelAnimationFrame(animationId);
+      fallingItems.forEach(item => item.el.remove());
+      fallingItems = [];
+      scoreEl.textContent = score;
+      livesEl.textContent = lives;
+      levelEl.textContent = level;
+      finalScoreEl.textContent = score;
+      setPlayerPosition((arena.clientWidth - player.offsetWidth) / 2);
+      targetX = playerX;
+      gameOverOverlay.classList.add('hidden');
+      startOverlay.classList.remove('hidden');
+    }
+
+    function startGame() {
+      score = 0;
+      lives = 3;
+      level = 1;
+      scoreEl.textContent = score;
+      livesEl.textContent = lives;
+      levelEl.textContent = level;
+      finalScoreEl.textContent = score;
+      fallingItems.forEach(item => item.el.remove());
+      fallingItems = [];
+      startOverlay.classList.add('hidden');
+      gameOverOverlay.classList.add('hidden');
+      gameRunning = true;
+      targetX = playerX;
+      beginSpawning();
+      animate();
+    }
+
+    function endGame() {
+      gameRunning = false;
+      clearInterval(spawnTimer);
+      cancelAnimationFrame(animationId);
+      finalScoreEl.textContent = score;
+      gameOverOverlay.classList.remove('hidden');
+    }
+
+    function updateDifficulty() {
+      level = Math.floor(score / 10) + 1;
+      levelEl.textContent = level;
+      if (gameRunning) {
+        beginSpawning();
+      }
+    }
+
+    function beginSpawning() {
+      clearInterval(spawnTimer);
+      const spawnRate = Math.max(320, 900 - (level - 1) * 65);
+      spawnTimer = setInterval(spawnItem, spawnRate);
+    }
+
+    function spawnItem() {
+      if (!gameRunning) return;
+      const el = document.createElement('div');
+      const isBomb = Math.random() < Math.min(0.18 + level * 0.02, 0.35);
+      el.className = 'falling';
+      el.textContent = isBomb ? '💣' : '⭐';
+      arena.appendChild(el);
+
+      const x = Math.random() * (arena.clientWidth - 26);
+      const speed = (isBomb ? 2.4 : 2) + Math.random() * 1.2 + level * 0.22;
+      el.style.left = `${x}px`;
+      el.style.top = '-30px';
+
+      fallingItems.push({
+        el,
+        x,
+        y: -30,
+        speed,
+        type: isBomb ? 'bomb' : 'star'
+      });
+    }
+
+    function movePlayerByKeyboard() {
+      const moveSpeed = 7 + (level - 1) * 0.25;
+      if (keys.left) targetX -= moveSpeed;
+      if (keys.right) targetX += moveSpeed;
+      const maxX = arena.clientWidth - player.offsetWidth;
+      targetX = clamp(targetX, 0, maxX);
+    }
+
+    function animate() {
+      if (!gameRunning) return;
+
+      movePlayerByKeyboard();
+      playerX += (targetX - playerX) * 0.24;
+      setPlayerPosition(playerX);
+
+      const playerRect = {
+        x: playerX,
+        y: arena.clientHeight - 18 - player.offsetHeight,
+        w: player.offsetWidth,
+        h: player.offsetHeight
+      };
+
+      for (let i = fallingItems.length - 1; i >= 0; i--) {
+        const item = fallingItems[i];
+        item.y += item.speed;
+        item.el.style.top = `${item.y}px`;
+
+        const hit =
+          item.x + 22 > playerRect.x &&
+          item.x < playerRect.x + playerRect.w &&
+          item.y + 22 > playerRect.y &&
+          item.y < playerRect.y + playerRect.h;
+
+        if (hit) {
+          if (item.type === 'star') {
+            score += 1;
+            scoreEl.textContent = score;
+            updateDifficulty();
+          } else {
+            lives -= 1;
+            livesEl.textContent = lives;
+            if (lives <= 0) {
+              item.el.remove();
+              fallingItems.splice(i, 1);
+              endGame();
+              return;
+            }
+          }
+          item.el.remove();
+          fallingItems.splice(i, 1);
+          continue;
+        }
+
+        if (item.y > arena.clientHeight) {
+          if (item.type === 'star') {
+            lives -= 1;
+            livesEl.textContent = lives;
+            if (lives <= 0) {
+              item.el.remove();
+              fallingItems.splice(i, 1);
+              endGame();
+              return;
+            }
+          }
+          item.el.remove();
+          fallingItems.splice(i, 1);
+        }
+      }
+
+      animationId = requestAnimationFrame(animate);
+    }
+
+    arena.addEventListener('mousemove', (e) => {
+      const rect = arena.getBoundingClientRect();
+      targetX = e.clientX - rect.left - player.offsetWidth / 2;
+      const maxX = arena.clientWidth - player.offsetWidth;
+      targetX = clamp(targetX, 0, maxX);
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') keys.left = true;
+      if (e.key === 'ArrowRight') keys.right = true;
+      if (e.key === ' ' && !gameRunning) {
+        e.preventDefault();
+        startGame();
+      }
+    });
+
+    window.addEventListener('keyup', (e) => {
+      if (e.key === 'ArrowLeft') keys.left = false;
+      if (e.key === 'ArrowRight') keys.right = false;
+    });
+
+    startBtn.addEventListener('click', startGame);
+    overlayStartBtn.addEventListener('click', startGame);
+    playAgainBtn.addEventListener('click', startGame);
+    restartBtn.addEventListener('click', resetGame);
+
+    window.addEventListener('resize', () => {
+      setPlayerPosition(playerX);
+      targetX = clamp(targetX, 0, arena.clientWidth - player.offsetWidth);
+    });
+
+    resetGame();
+  </script>
+</body>
+</html>
+
+    </body>
+</html>
